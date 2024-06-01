@@ -17,47 +17,48 @@ const Register = () => {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    const {response,
+    const { response,
         isLoading,
         isError,
         get,
         post, } = useAsyncApi()
 
-    const {user, createUser, loading, updateUserProfile} = useContext(AuthContext)
+    const { user, createUser, loading, updateUserProfile } = useContext(AuthContext)
 
 
-    if(isLoading){
+    if (isLoading) {
         return <p>Loading....</p>
     }
     const handleRegister = (e) => {
         e.preventDefault()
         createUser(email, password)
-        .then(result => {
-            console.log(result.user)
-            updateUserProfile(name, photoUrl)
-            .then( () => {
-                // const res = axios.post('https://savvy-academy-server.vercel.app/users', {email:email, name:name, role:'user'})
-                 post('https://savvy-academy-server.vercel.app/users', {email:email, name:name, role:'user', image:photoUrl})
-                 .then(res =>{
-                    if(res.insertedId){
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "User Created Successful",
-                            showConfirmButton: false,
-                            timer: 1500
-                          });
-                          navigate('/')
-                    }
-                 })
-               
-               
-               
+            .then(result => {
+                console.log(result.user)
+                updateUserProfile(name, photoUrl)
+                    .then(() => {
+                        // const res = axios.post('https://savvy-academy-server.vercel.app/users', {email:email, name:name, role:'user'})
+                        post('https://savvy-academy-server.vercel.app/users', { email: email, name: name, role: 'user', image: photoUrl })
+                            .then(res => {
+                                if (res.insertedId) {
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "User Created Successful",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/')
+                                }
+                            })
+
+
+
+                    })
             })
-        })
-        .catch(error => {
-            setError(error.message)
-            console.log(error)})
+            .catch(error => {
+                setError(error.message)
+                console.log(error)
+            })
     }
 
 
@@ -65,13 +66,15 @@ const Register = () => {
         console.log("Google click")
     }
 
-    if(loading){
+    if (loading) {
         return <progress className="progress w-56"></progress>
     }
 
     return (
         <Container>
-            <div className="hero min-h-screen bg-base-200 " style={{ backgroundImage: `url(${Banner})` }}>
+                    
+            <Link to="/" className="absolute border m-2 underline">Back Home</Link>
+            <div className="hero min-h-screen bg-base-200 py-8 " style={{ backgroundImage: `url(${Banner})` }}>
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">
                         <h1 className="text-5xl font-bold">Register now!</h1>

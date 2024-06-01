@@ -22,19 +22,7 @@ const ManageClasses = () => {
 
     const handleChangeStatus = (id, updatedStatus) => {
 
-        // patch('https://savvy-academy-server.vercel.app/classes', {id, updatedStatus})
-        // .then(res => {
-        //     console.log(res)
-        //     // if (res) {
-        //     //     Swal.fire({
-        //     //         position: "top-end",
-        //     //         icon: "success",
-        //     //         title: "Class Create Successful",
-        //     //         showConfirmButton: false,
-        //     //         timer: 1500
-        //     //     });
-        //     // }
-        // })
+       
 
         fetch("https://savvy-academy-server.vercel.app/classes", {
             method: "PATCH",

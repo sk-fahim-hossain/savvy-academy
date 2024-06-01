@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Logo from "/images/Logo.png"
 import { Link, useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
@@ -12,14 +12,11 @@ const Navbar = () => {
     const { user: authUser, logOut, loading } = useContext(AuthContext)
     const { role:userRole, isLoading} = useUserRole()
     const navigate = useNavigate()
+    
    
-    if(authUser == null){
-       navigate("/login")
-    }
-    if(loading || isLoading){
-        return <div>Loading..</div>
-    }
 
+
+    
 
     const hanldeLogOut = () => {
         logOut()
@@ -43,11 +40,14 @@ const Navbar = () => {
         <li><Link to="/all-classes" className='font-semibold'>All Classes</Link></li>
         <li><Link to="/all-instructors" className='font-semibold'>All Instructor</Link></li>
         {
-           isLoading ? <div>Loading...</div> : <li><Link to={`/dashboard/${userRole}`} className='font-semibold'>Dashboard</Link></li>
+            
+           userRole ?<li><Link to={`/dashboard/${userRole}`} className='font-semibold'>Dashboard</Link></li>:''
+           
         }
         
     </>
 
+console.log(user)
 
     return (
         <div className="navbar bg-slate-50">
@@ -67,7 +67,7 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
+                <ul className="menu menu-horizontal px-1 items-center">
                     {headerItem}
                 </ul>
             </div>
@@ -79,7 +79,8 @@ const Navbar = () => {
                 }
 
                 {
-                    user ? <div className='flex items-center gap-2'> <a className='btn' onClick={hanldeLogOut}>Logout</a></div> : <Link to='/login' className="btn">Login</Link>
+                   
+                   user ? <div className='flex items-center gap-2'> <a className='btn' onClick={hanldeLogOut}>Logout</a></div> : <Link to='/login' className="btn">Login</Link>
 
                 }
 

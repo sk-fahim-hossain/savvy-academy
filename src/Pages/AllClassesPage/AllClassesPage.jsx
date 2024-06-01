@@ -2,8 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-
-
 import { Navigate, useNavigate } from 'react-router-dom';
 import useUserRole from '../../hooks/useUserRole';
 import { AuthContext } from '../../Providers/AuthProvider';
@@ -14,6 +12,7 @@ const AllClassesPage = () => {
     const { user, loading: authLoading } = useContext(AuthContext)
     const { isLoading: loading, role } = useUserRole();
     const navigate = useNavigate()
+
     const { allInstructor, setAllInstructor } = useState([])
     const { refetch, isError, isLoading, data: allClasses = [], error } = useQuery({
         queryKey: ['allClasses'],
@@ -27,29 +26,23 @@ const AllClassesPage = () => {
     })
 
 
+   
 
 
-    // if(user?.email){
-    //     return(
-    //         Navigate('/login')
-    //     )
-    // }
-    if (isLoading || authLoading) {
-        return <p>Loading..</p>
-    }
-    console.log(allInstructor)
+    
+
 
     const handleSelect = (selectClass) => {
-        console.log(selectClass)
-        if (!user?.email) {
-            navigate('/login')
-        }
-        fetch("https://savvy-academy-server.vercel.app/selected-classes", {
+
+        // if (!user?.email) {
+        //     navigate('/login')
+        // }
+        fetch("https://savvy-academy-server.vercel.app/selected-classes/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({email: user.email, selectClass })
+            body: JSON.stringify({ email: user.email, selectClass })
         })
             .then(res => res.json())
             .then(data => {
@@ -62,13 +55,11 @@ const AllClassesPage = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                  
+
                 }
             })
-
-
-
     }
+    console.log(allClasses)
     return (
         <Container>
             <h2 className="text-4xl mt-[40px] mb-[30px]">All Classes</h2>
@@ -83,7 +74,7 @@ const AllClassesPage = () => {
                                 <h2 className="card-title">{singleClass.className}</h2>
                                 <p>{singleClass.className}</p>
                                 <div className="card-actions justify-end">
-                                    <button className="btn btn-primary" onClick={()=>handleSelect(singleClass)}>Select</button>
+                                    <button className="btn btn-primary" onClick={() => handleSelect(singleClass)}>Select</button>
                                 </div>
                             </div>
                         </div>
@@ -91,6 +82,7 @@ const AllClassesPage = () => {
                     ))
                 }
             </div>
+
         </Container>
     );
 };

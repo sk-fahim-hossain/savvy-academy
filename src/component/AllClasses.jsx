@@ -6,10 +6,11 @@ import { AuthContext } from '../Providers/AuthProvider';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const AllClasses = () => {
-    const {user,loading:authLoading } = useContext(AuthContext)
-    const {isLoading:loading, role} = useUserRole();
+    const { user, loading: authLoading } = useContext(AuthContext)
+    const { isLoading: loading, role } = useUserRole();
     const navigate = useNavigate()
-    const {allInstructor, setAllInstructor} = useState([])
+
+
     const { refetch, isError, isLoading, data: allClasses = [], error } = useQuery({
         queryKey: ['allClasses'],
         queryFn: async () => {
@@ -20,33 +21,40 @@ const AllClasses = () => {
             return response.json()
         },
     })
-   
- 
 
 
-    // if(user?.email){
-    //     return(
-    //         Navigate('/login')
-    //     )
+
+    console.log(allClasses)
+
+    // if (isLoading) {
+    //     return <div className="grid grid-cols-3 gap-2 mt-3">
+    //         {
+    //             [...Array(3)].slice(0, 3).map((singleClass, index) => (
+    //                 <div key={index} className="flex flex-col gap-4 w-52">
+    //                     <div className="skeleton h-32 w-full"></div>
+    //                     <div className="skeleton h-4 w-28"></div>
+    //                     <div className="skeleton h-4 w-full"></div>
+    //                     <div className="skeleton h-4 w-full"></div>
+    //                 </div>
+    //             ))
+    //         }
+    //     </div>
     // }
-    if(isLoading || authLoading){
-        return <p>Loading..</p>
-    }
-    console.log(allInstructor)
+   
 
-    const handleSelect =() =>{
-        if(!user?.email){
-                navigate('/login')
-            }
+    const handleSelect = () => {
+        if (!user?.email) {
+            navigate('/login')
+        }
     }
     return (
         <Container>
             <div className="grid grid-cols-3 gap-2 mt-3">
                 {
-                    allClasses.slice(0,3).map((singleClass, index) => (
+                    allClasses?.map((singleClass, index) => (
 
                         singleClass?.status == "approved" &&
-                        <div className="card card-compact  bg-base-100 shadow-xl">
+                        <div key={index} className="card card-compact  bg-base-100 shadow-xl">
                             <figure><img src={singleClass.classImage} alt="Shoes" /></figure>
                             <div className="card-body">
                                 <h2 className="card-title">{singleClass.className}</h2>
@@ -59,6 +67,7 @@ const AllClasses = () => {
 
                     ))
                 }
+
             </div>
         </Container>
     );

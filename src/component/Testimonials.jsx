@@ -7,7 +7,7 @@ const Testimonials = () => {
         <Container>
              <div className="grid grid-cols-3 gap-2 mt-3">
                 {
-                    [...Array(3)].map((index) => (
+                    [...Array(3)].map((_,index) => (
                         <div key={index} className="card card-compact  bg-base-100 ">
                             <figure><img src={person1} alt="Shoes" className='rounded-full'/></figure>
                             <div className="card-body text-center">

@@ -16,6 +16,7 @@ const DashboardLayout = () => {
         return <div>Loading...</div>
     }
     
+    console.log(role)
   
     
     return (
